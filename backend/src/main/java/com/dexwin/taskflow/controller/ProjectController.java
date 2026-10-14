@@ -2,6 +2,8 @@ package com.dexwin.taskflow.controller;
 
 import com.dexwin.taskflow.entity.Project;
 import com.dexwin.taskflow.repository.ProjectRepository;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/projects")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://didactic-spoon-6wpgw7v9jp924qq7-5173.app.github.dev/")
 public class ProjectController {
 
     private final ProjectRepository projectRepository;
@@ -29,7 +33,7 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public Project getById(@PathVariable Long id) {
-        return projectRepository.findById(id).orElse(null);
+        return projectRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, " Project doesn't exist"));
     }
 
     @PostMapping

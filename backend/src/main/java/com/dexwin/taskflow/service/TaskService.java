@@ -40,8 +40,7 @@ public class TaskService {
     }
 
     public List<Task> search(String query) {
-        String sql = "SELECT * FROM tasks WHERE title LIKE '%" + query + "%'";
-        return entityManager.createNativeQuery(sql, Task.class).getResultList();
+        return taskRepository.findByTitleContainingIgnoreCase(query);
     }
 
     public Task updateStatus(Long taskId, TaskStatus status) {
